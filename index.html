@@ -80,7 +80,7 @@
         <h1>Canada move plan</h1>
         <p>Nigerian medical doctors &middot; You + fiancee &middot; Express Entry &rarr; IMGs &rarr; Residency</p>
       </div>
-      <button class="reset-btn" onclick="resetAll()">Reset all</button>
+      <button class="reset-btn">Reset all</button>
     </div>
   </div>
 
@@ -242,8 +242,8 @@ function render() {
   document.getElementById('s-rem').textContent = total - doneCount;
   document.getElementById('prog').style.width = Math.round((doneCount/total)*100) + '%';
 
-  document.getElementById('phase-nav').innerHTML = PHASES.map(p =>
-    `<button class="pbtn${p===curPhase?' active':''}" onclick="setPhase(${JSON.stringify(p)})">${p==='All'?'All phases':p.replace('Phase ','Ph. ')}</button>`
+  document.getElementById('phase-nav').innerHTML = PHASES.map((p,i) =>
+    `<button class="pbtn${p===curPhase?' active':''}" data-phase-index="${i}">${p==='All'?'All phases':p.replace('Phase ','Ph. ')}</button>`
   ).join('');
 
   const phasesToShow = curPhase==='All' ? DATA : DATA.filter(p=>p.phase===curPhase);
@@ -284,6 +284,18 @@ function render() {
 }
 
 function setPhase(p) { curPhase=p; render(); }
+
+document.getElementById('phase-nav').addEventListener('click', function(e) {
+  const btn = e.target.closest('.pbtn');
+  if (!btn) return;
+  const idx = parseInt(btn.dataset.phaseIndex, 10);
+  setPhase(PHASES[idx]);
+});
+
+document.querySelector('.reset-btn').addEventListener('click', function() {
+  if (confirm('Reset all progress?')) { done.clear(); save(); render(); }
+});
+
 render();
 </script>
 </body>
