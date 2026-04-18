@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Canada Move Plan — IMGs to Residency</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231D9E75'/%3E%3Cpath d='M32 10 L36 22 L48 20 L40 29 L44 42 L32 36 L20 42 L24 29 L16 20 L28 22 Z' fill='white'/%3E%3Ccircle cx='32' cy='50' r='4' fill='none' stroke='white' stroke-width='2.5'/%3E%3Cpath d='M29 38 Q29 46 32 46' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -76,9 +77,17 @@
 <div class="app">
   <div class="header">
     <div class="top-row">
-      <div>
-        <h1>Canada move plan</h1>
-        <p>Nigerian medical doctors &middot; You + fiancee &middot; Express Entry &rarr; IMGs &rarr; Residency</p>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <svg width="40" height="40" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0; border-radius:10px;">
+          <rect width="64" height="64" rx="14" fill="#1D9E75"/>
+          <path d="M32 10 L36 22 L48 20 L40 29 L44 42 L32 36 L20 42 L24 29 L16 20 L28 22 Z" fill="white"/>
+          <circle cx="32" cy="50" r="4" fill="none" stroke="white" stroke-width="2.5"/>
+          <path d="M29 38 Q29 46 32 46" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h1>Canada move plan</h1>
+          <p>Nigerian medical doctors &middot; You + fiancee &middot; Express Entry &rarr; IMGs &rarr; Residency</p>
+        </div>
       </div>
       <button class="reset-btn">Reset all</button>
     </div>
@@ -113,8 +122,8 @@ const DATA = [
       ["Renew both international passports (allow 6–8 weeks)","Both of you · book appointments early"],
       ["Register on Physiciansapply.ca — create profiles for both","Both of you"],
       ["Request medical school transcripts and documents for Physiciansapply","Both of you"],
-      ["Register for IELTS Academic — book earliest available date","Both of you"],
-      ["Begin IELTS preparation (target: 7.5+ each band)","Recommended minimum for Express Entry"],
+      ["Register for IELTS General Training — book earliest available date","Both of you · General Training is for work/immigration, not Academic"],
+      ["Begin IELTS preparation (target: 7.0+ each band, ideally 7.5+)","CLB 9 = 7.5 each band — higher score = more CRS points"],
     ]},
     { name:"Medical licensing (ECA)", color:"#1D9E75", items:[
       ["Submit documents to Physiciansapply for ECA (Educational Credential Assessment)","Both of you · takes 3–5 months typically"],
@@ -156,10 +165,10 @@ const DATA = [
     ]},
     { name:"Finances & settlement prep", color:"#BA7517", items:[
       ["Confirm proof of funds meets IRCC threshold at time of submission","CAD $22,000+ for 2 people (check current IRCC table)"],
-      ["Research target city (Toronto, Ottawa, Calgary recommended for IMGs)",""],
+      ["Research target province — Alberta, Saskatchewan, or Ontario","Alberta & Saskatchewan: no health card wait + strong IMG demand; Ontario: larger IMG community but 3-month OHIP wait"],
       ["Book temporary accommodation for first 4–8 weeks","Airbnb / furnished suite"],
       ["Research newcomer banking — open Canadian account remotely if possible","TD, RBC, Scotiabank offer newcomer packages"],
-      ["Arrange international health insurance for the gap before OHIP","Ontario has 3-month wait; other provinces vary"],
+      ["Arrange international health insurance for the gap before provincial health card","Alberta & Saskatchewan: no wait period; Ontario (OHIP): 3-month wait — plan accordingly"],
       ["Ship or sell large belongings; prepare goods-to-follow list for customs",""],
       ["Book one-way flights after COPR is confirmed",""],
     ]},
@@ -173,7 +182,7 @@ const DATA = [
     { name:"Settlement & life", color:"#185FA5", items:[
       ["Land in Canada — get COPR stamped at port of entry","Both of you · keep all original documents on hand"],
       ["Apply for SIN (Social Insurance Number) — Service Canada","Both of you · needed within days of landing"],
-      ["Apply for provincial health card (e.g. OHIP in Ontario)","Both of you · 3-month wait in Ontario"],
+      ["Apply for provincial health card (AHCIP in Alberta / MSC in Saskatchewan / OHIP in Ontario)","Alberta & Saskatchewan: immediate coverage; Ontario: 3-month waiting period"],
       ["Open Canadian bank accounts in person","Both of you · bring SIN, passport, COPR"],
       ["Activate newcomer private health insurance for the gap period",""],
       ["Get Canadian driver's license (convert Nigerian licence)","Both of you · province-dependent process"],
