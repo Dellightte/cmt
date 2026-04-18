@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canada Move Plan — IMGs to Residency</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff; --bg2: #f6f5f1; --bg3: #eeedea;
+    --text: #2C2C2A; --text2: #5F5E5A; --text3: #888780;
+    --border: rgba(0,0,0,0.1); --border2: rgba(0,0,0,0.18);
+    --teal: #1D9E75; --purple: #534AB7; --amber: #BA7517;
+    --blue: #185FA5; --pink: #993556;
+    --radius: 8px; --radius-lg: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a18; --bg2: #242422; --bg3: #2e2e2b;
+      --text: #f0efe9; --text2: #a8a79f; --text3: #6b6a65;
+      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.18);
+    }
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg2); color: var(--text); min-height: 100vh; }
+  .app { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+  .header { margin-bottom: 20px; }
+  .header h1 { font-size: 22px; font-weight: 600; color: var(--text); }
+  .header p { font-size: 13px; color: var(--text2); margin-top: 3px; }
+  .top-row { display: flex; justify-content: space-between; align-items: flex-start; }
+  .reset-btn { font-size: 12px; color: var(--text3); background: none; border: none; cursor: pointer; padding: 0; }
+  .reset-btn:hover { color: var(--text2); }
+  .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
+  .stat { background: var(--bg); border-radius: var(--radius); padding: 12px 14px; border: 0.5px solid var(--border); }
+  .stat-label { font-size: 11px; color: var(--text2); margin-bottom: 3px; }
+  .stat-val { font-size: 22px; font-weight: 600; color: var(--text); }
+  .stat-val.green { color: var(--teal); }
+  .prog-wrap { background: var(--bg3); border-radius: 99px; height: 6px; margin-bottom: 16px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 99px; background: var(--teal); transition: width 0.4s; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-bottom: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text2); }
+  .legend-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .phase-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .pbtn { font-size: 11px; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .pbtn:hover { background: var(--bg3); }
+  .pbtn.active { background: #E6F1FB; color: #185FA5; border-color: #185FA5; font-weight: 500; }
+  @media (prefers-color-scheme: dark) { .pbtn.active { background: #0c447c33; color: #85B7EB; border-color: #378ADD; } }
+  .phase-section { margin-bottom: 6px; }
+  .phase-label { font-size: 10px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin: 20px 0 8px; }
+  .cat-block { margin-bottom: 14px; }
+  .cat-hdr { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .cat-pip { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .cat-name { font-size: 13px; font-weight: 600; color: var(--text); }
+  .cat-count { font-size: 11px; color: var(--text3); margin-left: auto; }
+  .items { display: flex; flex-direction: column; gap: 4px; }
+  .item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--bg); cursor: pointer; transition: border-color 0.15s; user-select: none; }
+  .item:hover { border-color: var(--border2); }
+  .item.done { opacity: 0.5; }
+  .cb { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--border2); flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .item.done .cb { background: var(--teal); border-color: var(--teal); }
+  .ck { display: none; }
+  .item.done .ck { display: block; }
+  .item-body { flex: 1; min-width: 0; }
+  .item-title { font-size: 13px; color: var(--text); line-height: 1.45; }
+  .item.done .item-title { text-decoration: line-through; color: var(--text3); }
+  .item-note { font-size: 11px; color: var(--text3); margin-top: 2px; font-style: italic; }
+  .empty { text-align: center; padding: 40px; color: var(--text3); font-size: 14px; }
+  .save-note { font-size: 11px; color: var(--text3); text-align: center; margin-top: 24px; }
+  @media print {
+    body { background: #fff; color: #000; }
+    .phase-nav, .reset-btn, .save-note { display: none; }
+    .item { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="top-row">
+      <div>
+        <h1>Canada move plan</h1>
+        <p>Nigerian medical doctors &middot; You + fiancee &middot; Express Entry &rarr; IMGs &rarr; Residency</p>
+      </div>
+      <button class="reset-btn" onclick="resetAll()">Reset all</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Total milestones</div><div class="stat-val" id="s-total">0</div></div>
+    <div class="stat"><div class="stat-label">Completed</div><div class="stat-val green" id="s-done">0</div></div>
+    <div class="stat"><div class="stat-label">Remaining</div><div class="stat-val" id="s-rem">0</div></div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill" id="prog" style="width:0%"></div></div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#534AB7"></div>Immigration</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Medical licensing</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#BA7517"></div>Finances & documents</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#185FA5"></div>Settlement & life</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#993556"></div>CaRMS & residency</div>
+  </div>
+
+  <div class="phase-nav" id="phase-nav"></div>
+  <div id="list"></div>
+  <div class="save-note">Progress is saved automatically in this browser. Open this file in any browser to continue.</div>
+</div>
+
+<script>
+const PHASES = ["All","Phase 1: Foundation","Phase 2: Express Entry pool","Phase 3: Post-ITA / pre-move","Phase 4: Landing & settling","Phase 5: OSCE & CaRMS","Phase 6: Residency match"];
+
+const DATA = [
+  { phase:"Phase 1: Foundation", categories:[
+    { name:"Passports & admin", color:"#534AB7", items:[
+      ["Renew both international passports (allow 6–8 weeks)","Both of you · book appointments early"],
+      ["Register on Physiciansapply.ca — create profiles for both","Both of you"],
+      ["Request medical school transcripts and documents for Physiciansapply","Both of you"],
+      ["Register for IELTS Academic — book earliest available date","Both of you"],
+      ["Begin IELTS preparation (target: 7.5+ each band)","Recommended minimum for Express Entry"],
+    ]},
+    { name:"Medical licensing (ECA)", color:"#1D9E75", items:[
+      ["Submit documents to Physiciansapply for ECA (Educational Credential Assessment)","Both of you · takes 3–5 months typically"],
+      ["Write IELTS exam","Both of you · results in ~2 weeks"],
+      ["Receive ECA results from Physiciansapply","Track on portal — required before Express Entry"],
+    ]},
+  ]},
+  { phase:"Phase 2: Express Entry pool", categories:[
+    { name:"Express Entry", color:"#534AB7", items:[
+      ["Create Express Entry profiles for both of you on IRCC portal","Need: ECA, IELTS scores, passport"],
+      ["Enter the Express Entry pool (Federal Skilled Worker stream)","CRS score determines how fast you get ITA"],
+      ["Write TEF/TCF French exam (you) to boost CRS score","Even CLB 7 in French adds significant CRS points"],
+      ["Update Express Entry profile with French scores",""],
+    ]},
+    { name:"Medical licensing (MCCQE1 prep)", color:"#1D9E75", items:[
+      ["Create Medical Council of Canada (MCC) account","Required to register for MCCQE1"],
+      ["Begin MCCQE1 study plan (Toronto Notes, UWorld, Amboss)","Plan 6–12 months of prep"],
+      ["Save up MCCQE1 exam fee (~CAD $1,490)","See finances track"],
+      ["Register and write MCCQE1 once funds are ready","Both of you · offered year-round at Prometric centres"],
+      ["Explore virtual observership opportunities (CAHO, hospital programs)","Builds Canadian experience for CaRMS"],
+    ]},
+    { name:"Finances & documents", color:"#BA7517", items:[
+      ["Open a dedicated savings account for settlement funds","Target: CAD $25,000+ proof of funds for 2 people"],
+      ["Set a monthly savings target toward proof of funds","Required at time of ITA submission"],
+      ["Gather police clearance certificates (Nigeria + any country lived in)","Both of you · valid 6 months from issue"],
+      ["Gather birth certificates, marriage/engagement documents","Both of you"],
+      ["Get reference letters from current employers/hospitals","Both of you · needed for work experience proof"],
+      ["Compile degree certificates, NYSC discharge/exemption certificates","Both of you"],
+    ]},
+  ]},
+  { phase:"Phase 3: Post-ITA / pre-move", categories:[
+    { name:"Immigration (ITA received)", color:"#534AB7", items:[
+      ["Accept ITA and begin PR application on IRCC portal","60-day window to submit after ITA"],
+      ["Book and complete immigration medical exam (Panel Physician)","Both of you · find a designated panel physician in Nigeria"],
+      ["Upload all required documents to IRCC application","Police certs, ECA, IELTS, photos, forms"],
+      ["Submit PR application and pay fees (~CAD $2,460 total for 2)",""],
+      ["Respond promptly to any IRCC requests for additional info (ADR)",""],
+      ["Receive COPR (Confirmation of Permanent Residence)","Must land in Canada before COPR expiry date"],
+    ]},
+    { name:"Finances & settlement prep", color:"#BA7517", items:[
+      ["Confirm proof of funds meets IRCC threshold at time of submission","CAD $22,000+ for 2 people (check current IRCC table)"],
+      ["Research target city (Toronto, Ottawa, Calgary recommended for IMGs)",""],
+      ["Book temporary accommodation for first 4–8 weeks","Airbnb / furnished suite"],
+      ["Research newcomer banking — open Canadian account remotely if possible","TD, RBC, Scotiabank offer newcomer packages"],
+      ["Arrange international health insurance for the gap before OHIP","Ontario has 3-month wait; other provinces vary"],
+      ["Ship or sell large belongings; prepare goods-to-follow list for customs",""],
+      ["Book one-way flights after COPR is confirmed",""],
+    ]},
+    { name:"Medical licensing (continued)", color:"#1D9E75", items:[
+      ["Await MCCQE1 results (if written during pool phase)",""],
+      ["Begin NAC OSCE preparation if MCCQE1 passed","NAC offered twice yearly — plan timing around move"],
+      ["Continue virtual observership until you land",""],
+    ]},
+  ]},
+  { phase:"Phase 4: Landing & settling", categories:[
+    { name:"Settlement & life", color:"#185FA5", items:[
+      ["Land in Canada — get COPR stamped at port of entry","Both of you · keep all original documents on hand"],
+      ["Apply for SIN (Social Insurance Number) — Service Canada","Both of you · needed within days of landing"],
+      ["Apply for provincial health card (e.g. OHIP in Ontario)","Both of you · 3-month wait in Ontario"],
+      ["Open Canadian bank accounts in person","Both of you · bring SIN, passport, COPR"],
+      ["Activate newcomer private health insurance for the gap period",""],
+      ["Get Canadian driver's license (convert Nigerian licence)","Both of you · province-dependent process"],
+      ["Find and lease a longer-term apartment",""],
+      ["Apply for Canada PR card (confirm mailing address)",""],
+      ["Register with College of Physicians and Surgeons in your province","Both of you · for Associate Physician licence"],
+    ]},
+    { name:"Medical licensing", color:"#1D9E75", items:[
+      ["Find a physical in-person clinical observership at a Canadian hospital","Strengthens CaRMS application significantly"],
+      ["Apply for Associate Physician or Clinical Observer role","Income + Canadian clinical experience"],
+      ["Continue / intensify NAC OSCE preparation in Canada",""],
+    ]},
+  ]},
+  { phase:"Phase 5: OSCE & CaRMS", categories:[
+    { name:"NAC OSCE & licensing", color:"#1D9E75", items:[
+      ["Register for NAC OSCE (offered Feb and Sept — plan accordingly)","Both of you"],
+      ["Write NAC OSCE","Both of you"],
+      ["Await NAC OSCE results",""],
+      ["Write any required provincial medical jurisprudence exam","Province-dependent"],
+    ]},
+    { name:"CaRMS preparation", color:"#993556", items:[
+      ["Update and format your CV to Canadian academic standard","Both of you"],
+      ["Write personal statement(s) — tailor per specialty and program","Both of you"],
+      ["Secure 3 strong Canadian reference letters","Both of you · observership supervisors ideal"],
+      ["Write MCCQE2 / specialty-specific mini exams if required",""],
+      ["Register on CaRMS portal when the next cycle opens","CaRMS R-1 cycle opens ~Sept each year"],
+      ["Submit CaRMS application (documents, CV, statements, references)","Both of you · deadline usually Nov"],
+      ["Prepare for CaRMS interviews (MMI format, specialty-specific Q&A)","Interviews typically Jan–Feb"],
+      ["Submit rank order list on CaRMS","Both of you · deadline ~late Feb"],
+    ]},
+  ]},
+  { phase:"Phase 6: Residency match", categories:[
+    { name:"Match day & beyond", color:"#993556", items:[
+      ["CaRMS Match Day — receive residency match result (typically late March)","Both of you"],
+      ["Accept match offer and confirm start date with program",""],
+      ["If unmatched R-1: enter R-2 second iteration or re-strategise","Many IMGs match in R-2"],
+      ["Begin residency program","Congratulations — you made it!"],
+    ]},
+    { name:"Finances during the wait", color:"#BA7517", items:[
+      ["Continue working as Associate Physician while awaiting match","Income + Canadian clinical experience"],
+      ["Ensure both of you maintain PR status (meet residency obligations)","Must be in Canada 730 days out of every 5 years"],
+    ]},
+  ]},
+];
+
+const STORAGE_KEY = 'canada_move_done_v1';
+let done = new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'));
+let curPhase = 'All';
+
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify([...done])); }
+
+function allItemCount() {
+  let n = 0;
+  DATA.forEach(ph => ph.categories.forEach(cat => n += cat.items.length));
+  return n;
+}
+
+function toggleDone(id) { done.has(id) ? done.delete(id) : done.add(id); save(); render(); }
+function resetAll() { if (confirm('Reset all progress?')) { done.clear(); save(); render(); } }
+
+function render() {
+  const total = allItemCount();
+  const doneCount = done.size;
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-done').textContent = doneCount;
+  document.getElementById('s-rem').textContent = total - doneCount;
+  document.getElementById('prog').style.width = Math.round((doneCount/total)*100) + '%';
+
+  document.getElementById('phase-nav').innerHTML = PHASES.map(p =>
+    `<button class="pbtn${p===curPhase?' active':''}" onclick="setPhase(${JSON.stringify(p)})">${p==='All'?'All phases':p.replace('Phase ','Ph. ')}</button>`
+  ).join('');
+
+  const phasesToShow = curPhase==='All' ? DATA : DATA.filter(p=>p.phase===curPhase);
+  let html = '';
+
+  phasesToShow.forEach((ph, relPi) => {
+    const realPi = DATA.indexOf(ph);
+    if (curPhase==='All') html += `<div class="phase-label">${ph.phase}</div>`;
+    ph.categories.forEach((cat, ci) => {
+      const catDone = cat.items.filter((_,ii)=>done.has(`${realPi}-${ci}-${ii}`)).length;
+      html += `<div class="cat-block">
+        <div class="cat-hdr">
+          <div class="cat-pip" style="background:${cat.color}"></div>
+          <div class="cat-name">${cat.name}</div>
+          <div class="cat-count">${catDone}/${cat.items.length}</div>
+        </div>
+        <div class="items">`;
+      cat.items.forEach(([text,note],ii) => {
+        const id=`${realPi}-${ci}-${ii}`;
+        const isDone=done.has(id);
+        html+=`<div class="item${isDone?' done':''}" onclick="toggleDone('${id}')">
+          <div class="cb">
+            <svg class="ck" width="9" height="7" viewBox="0 0 9 7" fill="none">
+              <path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="item-body">
+            <div class="item-title">${text}</div>
+            ${note?`<div class="item-note">${note}</div>`:''}
+          </div>
+        </div>`;
+      });
+      html += `</div></div>`;
+    });
+  });
+
+  document.getElementById('list').innerHTML = html || `<div class="empty">No milestones in this phase.</div>`;
+}
+
+function setPhase(p) { curPhase=p; render(); }
+render();
+</script>
+</body>
+</html>
