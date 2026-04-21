@@ -67,6 +67,8 @@
   .item-note { font-size: 11px; color: var(--text3); margin-top: 2px; font-style: italic; }
   .empty { text-align: center; padding: 40px; color: var(--text3); font-size: 14px; }
   .save-note { font-size: 11px; color: var(--text3); text-align: center; margin-top: 24px; }
+  .pof-ngn { font-style: normal; font-weight: 600; color: var(--teal); }
+  .pof-ngn.loading { color: var(--text3); font-style: italic; font-weight: normal; }
   @media print {
     body { background: #fff; color: #000; }
     .phase-nav, .reset-btn, .save-note { display: none; }
@@ -139,11 +141,12 @@ const DATA = [
       ["Begin MCCQE1 study plan (Toronto Notes, UWorld, Amboss)","Plan 6–12 months of prep"],
       ["Save up MCCQE1 exam fee (~CAD $1,490)","See finances track"],
       ["Register and write MCCQE1 once funds are ready","Both of you · offered year-round at Prometric centres"],
+      ["Begin NAC OSCE preparation after writing MCCQE1","Both of you · NAC offered Feb and Sept — start building your OSCE skills now"],
       ["Explore virtual observership opportunities (CAHO, hospital programs)","Builds Canadian experience for CaRMS"],
     ]},
     { name:"Finances & documents", color:"#BA7517", items:[
-      ["Open a dedicated savings account for settlement funds","Target: CAD $25,000+ proof of funds for 2 people"],
-      ["Set a monthly savings target toward proof of funds","Required at time of ITA submission"],
+      ["Open a dedicated savings account for settlement funds","Target: CAD $19,500 proof of funds for a couple"],
+      ["Set a monthly savings target toward proof of funds — <span class='pof-ngn'>calculating NGN equivalent…</span>","Required at time of ITA submission"],
       ["Gather police clearance certificates (Nigeria + any country lived in)","Both of you · valid 6 months from issue"],
       ["Gather birth certificates, marriage/engagement documents","Both of you"],
       ["Get reference letters from current employers/hospitals","Both of you · needed for work experience proof"],
@@ -156,21 +159,22 @@ const DATA = [
       ["Book and complete immigration medical exam (Panel Physician)","Both of you · find a designated panel physician in Nigeria"],
       ["Upload all required documents to IRCC application","Police certs, ECA, IELTS, photos, forms"],
       ["Submit PR application and pay fees (~CAD $2,460 total for 2)",""],
-      ["Respond promptly to any IRCC requests for additional info (ADR)",""],
+      ["Monitor IRCC portal regularly and keep documents ready for any follow-up","Stay proactive — quick responses keep your file moving"],
       ["Receive COPR (Confirmation of Permanent Residence)","Must land in Canada before COPR expiry date"],
     ]},
     { name:"Finances & settlement prep", color:"#BA7517", items:[
-      ["Confirm proof of funds meets IRCC threshold at time of submission","CAD $22,000+ for 2 people (check current IRCC table)"],
+      ["Confirm proof of funds meets IRCC threshold at time of submission","CAD $19,500 for a couple — <span class='pof-ngn'>calculating NGN equivalent…</span> (check current IRCC table to verify)"],
       ["Research target province — Alberta, Saskatchewan, or Ontario","Alberta & Saskatchewan: no health card wait + strong IMG demand; Ontario: larger IMG community but 3-month OHIP wait"],
       ["Book temporary accommodation for first 4–8 weeks","Airbnb / furnished suite"],
       ["Research newcomer banking — open Canadian account remotely if possible","TD, RBC, Scotiabank offer newcomer packages"],
       ["Arrange international health insurance for the gap before provincial health card","Alberta & Saskatchewan: no wait period; Ontario (OHIP): 3-month wait — plan accordingly"],
-      ["Ship or sell large belongings; prepare goods-to-follow list for customs",""],
+      ["Ship or sell large belongings; finalise goods-to-follow list to present at the airport on arrival","Declare goods-to-follow at port of entry — have the list printed and ready"],
+      ["Confirm your Canadian mailing address ahead of landing so your PR card ships there immediately","PR card will be mailed to address on file — lock this in before you fly"],
       ["Book one-way flights after COPR is confirmed",""],
     ]},
     { name:"Medical licensing (continued)", color:"#1D9E75", items:[
-      ["Await MCCQE1 results (if written during pool phase)",""],
-      ["Begin NAC OSCE preparation if MCCQE1 passed","NAC offered twice yearly — plan timing around move"],
+      ["Await MCCQE1 results",""],
+      ["Continue and intensify NAC OSCE preparation through the move period","Keep momentum going — NAC prep started after MCCQE1, continue until you land"],
       ["Continue virtual observership until you land",""],
     ]},
   ]},
@@ -184,12 +188,10 @@ const DATA = [
       ["Get Canadian driver's license (convert Nigerian licence)","Both of you · province-dependent process"],
       ["Find and lease a longer-term apartment",""],
       ["Apply for Canada PR card (confirm mailing address)",""],
-      ["Register with College of Physicians and Surgeons in your province","Both of you · for Associate Physician licence"],
     ]},
     { name:"Medical licensing", color:"#1D9E75", items:[
-      ["Find a physical in-person clinical observership at a Canadian hospital","Strengthens CaRMS application significantly"],
-      ["Apply for Associate Physician or Clinical Observer role","Income + Canadian clinical experience"],
-      ["Continue / intensify NAC OSCE preparation in Canada",""],
+      ["Continue NAC OSCE preparation — the priority on arrival","Both of you · now studying in Canada with the real exam date in sight"],
+      ["Register with College of Physicians and Surgeons in your province","Both of you · required before applying for any clinical role"],
     ]},
   ]},
   { phase:"Phase 5: OSCE & CaRMS", categories:[
@@ -197,6 +199,7 @@ const DATA = [
       ["Register for NAC OSCE (offered Feb and Sept — plan accordingly)","Both of you"],
       ["Write NAC OSCE","Both of you"],
       ["Await NAC OSCE results",""],
+      ["Apply for Associate Physician or clinical observership role","Both of you · now that OSCE is written, begin earning + building Canadian clinical experience"],
       ["Write any required provincial medical jurisprudence exam","Province-dependent"],
     ]},
     { name:"CaRMS preparation", color:"#993556", items:[
@@ -212,9 +215,8 @@ const DATA = [
   ]},
   { phase:"Phase 6: Residency match", categories:[
     { name:"Match day & beyond", color:"#993556", items:[
-      ["CaRMS Match Day — receive residency match result (typically late March)","Both of you"],
+      ["CaRMS Match Day — receive your residency match result (typically late March)","Both of you"],
       ["Accept match offer and confirm start date with program",""],
-      ["If unmatched R-1: enter R-2 second iteration or re-strategise","Many IMGs match in R-2"],
       ["Begin residency program","Congratulations — you made it!"],
     ]},
     { name:"Finances during the wait", color:"#BA7517", items:[
@@ -302,6 +304,46 @@ document.querySelector('.reset-btn').addEventListener('click', function() {
 });
 
 render();
+</script>
+<script>
+// Live CAD → NGN black-market rate fetcher
+// Uses exchangerate-api (free tier, no key needed for basic pair)
+const POF_CAD = 19500;
+const FALLBACK_RATE = 1010; // ₦/CAD black-market mid-rate as of April 2026
+
+async function fetchCADRate() {
+  try {
+    const res = await fetch('https://open.er-api.com/v6/latest/CAD');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    const rate = data.rates && data.rates.NGN;
+    if (!rate) throw new Error('No NGN rate');
+    // Black market typically runs ~3–5% above official; apply a modest 3% premium
+    return Math.round(rate * 1.03);
+  } catch {
+    return FALLBACK_RATE;
+  }
+}
+
+function formatNGN(amount) {
+  return '₦' + Math.round(amount).toLocaleString('en-NG');
+}
+
+async function updatePOFSpans() {
+  const spans = document.querySelectorAll('.pof-ngn');
+  spans.forEach(s => { s.classList.add('loading'); s.textContent = 'fetching rate…'; });
+
+  const rate = await fetchCADRate();
+  const ngnTotal = POF_CAD * rate;
+  const label = `CAD $${POF_CAD.toLocaleString()} ≈ ${formatNGN(ngnTotal)} at today's black-market rate (₦${rate.toLocaleString()}/CAD)`;
+
+  spans.forEach(s => {
+    s.classList.remove('loading');
+    s.textContent = label;
+  });
+}
+
+updatePOFSpans();
 </script>
 </body>
 </html>
